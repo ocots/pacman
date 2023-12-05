@@ -8,14 +8,6 @@ from parameters import Parameters
 # les paramètres du jeu
 parameters = Parameters()
 
-# dimension du terrain de jeu
-#FIELD_WIDTH  = parameters.FIELD_WIDTH
-#FIELD_HEIGHT = parameters.FIELD_HEIGHT
-
-# dimension de l'écran
-#SCREEN_WIDTH  = parameters.SCREEN_WIDTH
-#SCREEN_HEIGHT = parameters.SCREEN_HEIGHT
-
 # couleurs du jeu
 BLACK = parameters.BLACK
 WHITE = parameters.WHITE
@@ -178,8 +170,7 @@ class Game(object):
                         player.counter_touched = 0
                 else:
                     # on met à jour le joueur
-                    player.update() #self.level.horizontal_paths, 
-                                  #self.level.vertical_paths)
+                    player.update()
                     
                     # détection de collision entre le joueur et les points
                     block_hit_list = pygame.sprite.Group()
