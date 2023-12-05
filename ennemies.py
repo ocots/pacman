@@ -6,14 +6,6 @@ import math
 # les paramètres du jeu
 parameters = Parameters()
 
-# dimension du terrain de jeu
-#FIELD_WIDTH  = parameters.FIELD_WIDTH # utile car ils se déplacent sur un tore
-#FIELD_HEIGHT = parameters.FIELD_HEIGHT
-
-# position de l'extrémité supérieure gauche du terrain de jeu
-#FIELD_X = parameters.FIELD_X
-#FIELD_Y = parameters.FIELD_Y
-
 # définit les couleurs du jeu
 BLACK = parameters.BLACK
 WHITE = parameters.WHITE

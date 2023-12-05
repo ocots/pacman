@@ -6,14 +6,6 @@ import math
 # les paramètres du jeu
 parameters = Parameters()
 
-# dimension du terrain de jeu
-#FIELD_WIDTH  = parameters.FIELD_WIDTH # utile car ils se déplacent sur un tore
-#FIELD_HEIGHT = parameters.FIELD_HEIGHT
-
-# position de l'extrémité supérieure gauche du terrain de jeu
-#FIELD_X = parameters.FIELD_X
-#FIELD_Y = parameters.FIELD_Y
-
 # définit les couleurs du jeu
 BLACK = parameters.BLACK
 WHITE = parameters.WHITE
@@ -135,47 +127,62 @@ class Player(pygame.sprite.Sprite):
             angle = angle % (2*math.pi) # between 0 and 2*pi
             # get the angle of reference for the block: 
             # that is tha angle of the vector joining the center and the top right corner of the block
-            angle_ref = math.atan2(block.rect.height/2, block.rect.width/2)
-            angle_ref = angle_ref % (2*math.pi) # between 0 and 2*pi
-            if not (angle_ref >= 0 and angle_ref < math.pi/2):
-                raise ValueError("angle_ref = %f" % angle_ref)
-            # the following will be at approximately epsilon, that is for instance if the angle is close
-            # to the angle of reference at epsilon, then we do nothing. This will help to turn the player
-            epsilon =  parameters.PLAYER_EPSILON_WALL
-            # if angle is between angle_ref and -angle_ref, then the player is in the right direction
-            # so self.change_x can not be negative
-            #if angle >= (2.0*math.pi-angle_ref) or angle<angle_ref:
-            if angle > (2.0*math.pi-angle_ref+epsilon) or angle < (angle_ref-epsilon):
+            a = math.atan2(block.rect.height/2, block.rect.width/2)
+            a = a % (2*math.pi) # between 0 and 2*pi
+            e = parameters.PLAYER_EPSILON_WALL
+            d = parameters.WALL_DISTANCE_TO_CORNER
+            # 
+            if not (a >= 0 and a < math.pi/2):
+                raise ValueError("a = %f" % a)
+            # [2pi-a+e, a-e]: right
+            if angle > (2.0*math.pi-a+e) or angle < (a-e):
                 self.change_x = 0
                 self.rect.left = block.rect.right
-            # if angle is between angle_ref and pi-angle_ref, then the player is in the top direction
-            # so self.change_y can not be negative
-            #if angle >= angle_ref and angle < (math.pi-angle_ref):
-            if angle > (angle_ref+epsilon) and angle < (math.pi-angle_ref-epsilon):
+            # [a+e, pi-a-e]: top
+            elif angle > (a+e) and angle < (math.pi-a-e):
                 self.change_y = 0
                 self.rect.bottom = block.rect.top
-            # if angle is between -pi+angle_ref and angle_ref, then the player is in the left direction
-            #if angle >= (math.pi-angle_ref) and angle < (math.pi+angle_ref):
-            if angle > (math.pi-angle_ref+epsilon) and angle < (math.pi+angle_ref-epsilon):
+            # [pi-a+e, pi+a-e]: left
+            elif angle > (math.pi-a+e) and angle < (math.pi+a-e):
                 self.change_x = 0
                 self.rect.right = block.rect.left
-            # if angle is between pi-angle_ref and 2*pi-angle_ref, then the player is in the bottom direction
-            #if angle >= (math.pi+angle_ref) and angle < (2*math.pi-angle_ref):
-            if angle > (math.pi+angle_ref+epsilon) and angle < (2*math.pi-angle_ref-epsilon):
+            # [pi+a+e, 2pi-a-e]: bottom
+            elif angle > (math.pi+a+e) and angle < (2*math.pi-a-e):
                 self.change_y = 0
                 self.rect.top = block.rect.bottom
-            
-        # # ceci empechera l'utilisateur de monter ou descendre lorsqu'il se trouve à l'intérieur du cadre
-        # d = self.level.distance_to_crossroad(self.rect.centerx, self.rect.centery)
-        # dmin = parameters.PLAYER_DISTANCE_TO_CROSSROAD
-        #for block in pygame.sprite.spritecollide(self, self.level.paths, False):
-        #     if d > dmin:
-        #    self.rect.centery = block.rect.centery
-        #         self.change_y = 0
-        # for block in pygame.sprite.spritecollide(self, vertical_blocks, False):
-        #     if d > dmin:
-        #         self.rect.centerx = block.rect.centerx
-        #         self.change_x = 0
+            # in the last 4 following cases, we have to check the distance to the block
+            # top-right: [a-e, a+e]
+            elif angle >= (a-e) and angle < (a+e):
+                # get the vector joining the top right corner of the block and the center of the player
+                dx = self.rect.centerx - block.rect.right
+                dy = block.rect.top - self.rect.centery
+                # move the player at the distance d from the corner of the block in the direction (dx, dy)
+                self.rect.centerx = block.rect.right + d * dx / math.sqrt(dx*dx + dy*dy)
+                self.rect.centery = block.rect.top - d * dy / math.sqrt(dx*dx + dy*dy)
+            # top-left: [pi-a-e, pi-a+e]
+            elif angle >= (math.pi-a-e) and angle < (math.pi-a+e):
+                # get the vector joining the top left corner of the block and the center of the player
+                dx = self.rect.centerx - block.rect.left
+                dy = block.rect.top - self.rect.centery
+                # move the player at the distance d from the corner of the block in the direction (dx, dy)
+                self.rect.centerx = block.rect.left + d * dx / math.sqrt(dx*dx + dy*dy)
+                self.rect.centery = block.rect.top - d * dy / math.sqrt(dx*dx + dy*dy)
+            # bottom-left: [pi+a-e, pi+a+e]
+            elif angle >= (math.pi+a-e) and angle < (math.pi+a+e):
+                # get the vector joining the bottom left corner of the block and the center of the player
+                dx = self.rect.centerx - block.rect.left
+                dy = block.rect.bottom - self.rect.centery
+                # move the player at the distance d from the corner of the block in the direction (dx, dy)
+                self.rect.centerx = block.rect.left + d * dx / math.sqrt(dx*dx + dy*dy)
+                self.rect.centery = block.rect.bottom - d * dy / math.sqrt(dx*dx + dy*dy)
+            # bottom-right: [2pi-a-e, 2pi-a+e]
+            elif angle >= (2*math.pi-a-e) and angle < (2*math.pi-a+e):
+                # get the vector joining the bottom right corner of the block and the center of the player
+                dx = self.rect.centerx - block.rect.right
+                dy = block.rect.bottom - self.rect.centery
+                # move the player at the distance d from the corner of the block in the direction (dx, dy)
+                self.rect.centerx = block.rect.right + d * dx / math.sqrt(dx*dx + dy*dy)
+                self.rect.centery = block.rect.bottom - d * dy / math.sqrt(dx*dx + dy*dy)
         
         # on change l'orientation de l'image en fonction de l'orientation du joueur
         self.update_image_from_direction()
@@ -205,26 +212,6 @@ class Player(pygame.sprite.Sprite):
         
     def move_down(self):
         self.change_y = parameters.PLAYER_SPEED
-        
-    # def stop_move_right(self):
-    #     if self.change_x != 0:
-    #         self.image = self.player_image
-    #     self.change_x = 0
-        
-    # def stop_move_left(self):
-    #     if self.change_x != 0:
-    #         self.image = pygame.transform.flip(self.player_image, True, False)
-    #     self.change_x = 0
-        
-    # def stop_move_up(self):
-    #     if self.change_y != 0:
-    #         self.image = pygame.transform.rotate(self.player_image, 90)
-    #     self.change_y = 0
-        
-    # def stop_move_down(self):
-    #     if self.change_y != 0:
-    #         self.image = pygame.transform.rotate(self.player_image, 270)
-    #     self.change_y = 0
         
     def stop_move_x(self):
         self.change_x = 0

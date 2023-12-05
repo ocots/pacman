@@ -72,7 +72,7 @@ class Parameters():
         self.SCORE_FONT_SIZE    = 35
         
         #
-        self.UNIT_LENGTH        = 80 #80 #52
+        self.UNIT_LENGTH        = 52 #80 #52
         
         # GAME
         self.MUSIC              = ( "resources/soprano-coach.mp3",
@@ -108,6 +108,7 @@ class Parameters():
         #
         self.WALL_BIG_LENGTH    = self.UNIT_LENGTH #32
         self.WALL_SMALL_LENGTH  = 2*self.UNIT_LENGTH//26  #3
+        self.WALL_DISTANCE_TO_CORNER = self.UNIT_LENGTH//2
         #
         self.ELLIPSE_WIDTH      = self.UNIT_LENGTH//4
         self.ELLIPSE_HEIGHT     = self.UNIT_LENGTH//4
