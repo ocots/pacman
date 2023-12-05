@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg6477"
+   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
+   sodipodi:docname="fantome-perso.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview6479"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.78127806"
+     inkscape:cx="561.89982"
+     inkscape:cy="579.1792"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs6474" />
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="opacity:1;fill:#f2f2f2;stroke:#000000;stroke-width:2.29906;stroke-dasharray:none;paint-order:markers stroke fill"
+       d="m 63.420339,176.29466 c -5.90934,1.55056 -8.60489,-28.72334 -6.917608,-39.94447 1.687282,-11.22112 6.108966,-20.92676 9.975032,-25.86568 3.866066,-4.93893 10.767742,-11.378645 22.251265,-13.276237 11.483522,-1.897593 23.065862,5.784077 27.177112,13.276237 4.11124,7.49216 5.34661,25.85052 4.08242,36.11737 -1.2642,10.26685 -6.73119,28.78113 -12.0657,30.97758 -5.33452,2.19644 -8.754772,-23.3953 -12.059838,-22.12706 -3.305067,1.26823 -5.333504,20.26047 -10.531132,21.6988 -5.197628,1.43831 -7.774618,-24.28382 -11.210563,-22.9836 -3.262439,1.23458 -4.791648,20.5765 -10.700988,22.12706 z"
+       id="path6598"
+       sodipodi:nodetypes="zzzzzzzzzsz"
+       inkscape:export-filename="fantome-perso.png"
+       inkscape:export-xdpi="23.530256"
+       inkscape:export-ydpi="23.530256" />
+    <ellipse
+       style="fill:#000000;stroke:none;stroke-width:1.67932;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="path7890-9"
+       cx="98.24102"
+       cy="117.6937"
+       rx="6.5136456"
+       ry="5.995719" />
+    <ellipse
+       style="opacity:1;fill:#000000;stroke:#000000;stroke-width:0.919625;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="path7767"
+       ry="9.8501101"
+       rx="5.0107803"
+       cy="137.64371"
+       cx="85.629021" />
+    <ellipse
+       style="opacity:1;fill:#000000;stroke:none;stroke-width:1.67932;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="path7890"
+       cx="77.917267"
+       cy="116.19471"
+       rx="6.5136456"
+       ry="5.995719" />
+    <rect
+       style="opacity:1;fill:none;stroke:none;stroke-width:2.5;stroke-dasharray:none;paint-order:markers stroke fill"
+       id="rect8110"
+       width="86.356895"
+       height="86.356895"
+       x="44.702393"
+       y="93.468643" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Calque 2" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Calque 3">
+    <ellipse
+       id="path7983"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.243317"
+       cx="73.781609"
+       cy="114.19614"
+       rx="3.2066855"
+       ry="2.6950386" />
+    <ellipse
+       id="path7985"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.243317"
+       cx="94.334305"
+       cy="115.05268"
+       rx="3.2066855"
+       ry="2.6950386" />
+    <ellipse
+       id="path7987"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.243317"
+       cx="81.764885"
+       cy="119.47809"
+       rx="2.1377907"
+       ry="1.7966925" />
+    <ellipse
+       id="path7989"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.243317"
+       cx="101.46829"
+       cy="120.76289"
+       rx="2.1377907"
+       ry="1.7966925" />
+  </g>
+</svg>
