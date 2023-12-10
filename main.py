@@ -3,21 +3,17 @@ import pygame
 from game import Game
 from parameters import Parameters
 
-# les paramètres du jeu
-parameters = Parameters()
-
-# dimension de l'écran
-#SCREEN_WIDTH  = parameters.SCREEN_WIDTH
-#SCREEN_HEIGHT = parameters.SCREEN_HEIGHT
-
-# FPS
-FPS = parameters.FPS
-
 def main():
  
     root = tkinter.Tk()
     root.withdraw()
     SCREEN_WIDTH, SCREEN_HEIGHT = root.winfo_screenwidth(), root.winfo_screenheight()
+    
+    print("SCREEN_WIDTH: ", SCREEN_WIDTH)
+    print("SCREEN_HEIGHT: ", SCREEN_HEIGHT)
+    
+    # paramètres du jeu
+    parameters = Parameters(SCREEN_WIDTH, SCREEN_HEIGHT)
     
     # pygame setup
     pygame.init()
@@ -27,7 +23,7 @@ def main():
     clock   = pygame.time.Clock()
     
     # crée le jeu
-    game = Game(SCREEN_WIDTH, SCREEN_HEIGHT)
+    game = Game(parameters)
     
     # boucle du jeu principale
     while running:
@@ -42,7 +38,7 @@ def main():
         game.display_frame(screen)
         
         # limite le jeu à FPS images par seconde
-        clock.tick(FPS)
+        clock.tick(parameters.FPS)
 
     # ferme le jeu
     pygame.quit()

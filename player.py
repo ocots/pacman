@@ -1,22 +1,14 @@
 import pygame
-from animation import Animation
-from parameters import Parameters
-import math
+#from animation import Animation
+#import math
 import utils
-
-# les paramètres du jeu
-parameters = Parameters()
-
-# définit les couleurs du jeu
-BLACK = parameters.BLACK
-WHITE = parameters.WHITE
-BLUE  = parameters.BLUE
-GREEN = parameters.GREEN
-RED   = parameters.RED
 
 class Player(pygame.sprite.Sprite):
     
     def __init__(self, x, y, direction, filename, level):
+        
+        #
+        self.parameters = level.parameters
             
         # appelle le constructeur de la classe parent (Sprite)
         pygame.sprite.Sprite.__init__(self)
@@ -30,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         
         # charge l'image du joueur
         self.image_save = pygame.image.load(filename).convert_alpha()
-        self.image_save = pygame.transform.scale(self.image_save, (parameters.PLAYER_WIDTH, parameters.PLAYER_HEIGHT))
+        self.image_save = pygame.transform.scale(self.image_save, (self.parameters.PLAYER_WIDTH, self.parameters.PLAYER_HEIGHT))
         self.image = self.image_save
         
         # définit une couleur comme transparente
@@ -69,7 +61,7 @@ class Player(pygame.sprite.Sprite):
         #self.player_image.set_colorkey(BLACK)
         
         # nombre de vies du joueur
-        self.lives = parameters.PLAYER_LIVES
+        self.lives = self.parameters.PLAYER_LIVES
         
         # indicateur a été touché par un ennemi
         self.touched = False
@@ -103,8 +95,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.change_y
         
         # on vérifie les collisions avec les murs
-        e = parameters.PLAYER_EPSILON_WALL
-        d = parameters.WALL_DISTANCE_TO_CORNER
+        e = self.parameters.PLAYER_EPSILON_WALL
+        d = self.parameters.WALL_DISTANCE_TO_CORNER
         x_blocked, y_blocked = utils.update_state_collision_walls(self, e, d)
         
         # on change l'orientation de l'image en fonction de l'orientation du joueur
@@ -125,16 +117,16 @@ class Player(pygame.sprite.Sprite):
         #     self.image = self.move_up_animation.get_current_image()
                 
     def move_right(self):
-        self.change_x = parameters.PLAYER_SPEED
+        self.change_x = self.parameters.PLAYER_SPEED
         
     def move_left(self):
-        self.change_x = -parameters.PLAYER_SPEED
+        self.change_x = -self.parameters.PLAYER_SPEED
         
     def move_up(self):
-        self.change_y = -parameters.PLAYER_SPEED
+        self.change_y = -self.parameters.PLAYER_SPEED
         
     def move_down(self):
-        self.change_y = parameters.PLAYER_SPEED
+        self.change_y = self.parameters.PLAYER_SPEED
         
     def stop_move_x(self):
         self.change_x = 0
