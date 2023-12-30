@@ -27,7 +27,11 @@ class Game(object):
         self.level = Levels(1, self.parameters)
 
         # on démarre la musique
-        self.game_music = pygame.mixer.Sound(random.choice(self.parameters.MUSIC))
+        try:
+            self.game_music = pygame.mixer.Sound(random.choice(self.parameters.MUSIC))
+        except FileNotFoundError:
+            self.game_music = None
+            print("Fichier audio non trouvé")
         
         # charge les effets sonores
         #self.pacman_sound    = pygame.mixer.Sound("resources/pacman_sound.ogg")
@@ -49,8 +53,12 @@ class Game(object):
         self.level = Levels(1, self.parameters)
         
         # on démarre la musique
-        self.game_music = pygame.mixer.Sound(random.choice(self.parameters.MUSIC))
-        self.game_music.play(-1)
+        try:
+            self.game_music = pygame.mixer.Sound(random.choice(self.parameters.MUSIC))
+            self.game_music.play(-1)
+        except FileNotFoundError:
+            self.game_music = None
+            print("Fichier audio non trouvé")
         
         # on remet le chronomètre à zéro
         self.clock = pygame.time.Clock()
@@ -132,11 +140,13 @@ class Game(object):
             # si on quitte le jeu, on arrête la musique
             if self.state["frame"] == self.parameters.FRAMES.MENU and \
             self.state["action"] == self.parameters.ACTIONS.EMPTY:
-                self.game_music.stop()
+                if self.game_music is not None:
+                    self.game_music.stop()
                 
             if self.state["frame"] == self.parameters.FRAMES.GAME and \
             self.state["action"] == self.parameters.ACTIONS.GAMEOVER:
-                self.game_music.stop()
+                if self.game_music is not None:
+                    self.game_music.stop()
                 self.game_over_sound.play()
                 
         return self.state["action"] == self.parameters.ACTIONS.QUIT
