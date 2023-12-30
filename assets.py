@@ -1,13 +1,11 @@
 import pygame
-from parameters import Parameters
-parameters = Parameters()
-
-# définit les couleurs du jeu
-BLACK = parameters.BLACK
 
 class Ellipse(pygame.sprite.Sprite):
     
     def __init__(self, x, y, color, width, height, level):
+        
+        #
+        BLACK = level.parameters.BLACK
         
         # appelle le constructeur de la classe parent (Sprite)
         pygame.sprite.Sprite.__init__(self)
@@ -24,13 +22,14 @@ class Ellipse(pygame.sprite.Sprite):
 
 class Block(pygame.sprite.Sprite):
     
-    def __init__(self, x, y, color, width, height, level):
+    def __init__(self, x, y, color, width, height, level, alpha=255):
         
         # appelle le constructeur de la classe parent (Sprite)
         pygame.sprite.Sprite.__init__(self)
         
         # définit la couleur de l'arrère-plan comme transparente
         self.image = pygame.Surface([width, height])
+        self.image.set_alpha(alpha)
         self.image.fill(color)
         self.rect = self.image.get_rect()
         # on positionne le bloc à l'écran en fonction de sa position dans le terrain de jeu

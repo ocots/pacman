@@ -1,29 +1,14 @@
 import pygame
-from animation import Animation
-from parameters import Parameters
-import math
-
-# les paramètres du jeu
-parameters = Parameters()
-
-# dimension du terrain de jeu
-#FIELD_WIDTH  = parameters.FIELD_WIDTH # utile car ils se déplacent sur un tore
-#FIELD_HEIGHT = parameters.FIELD_HEIGHT
-
-# position de l'extrémité supérieure gauche du terrain de jeu
-#FIELD_X = parameters.FIELD_X
-#FIELD_Y = parameters.FIELD_Y
-
-# définit les couleurs du jeu
-BLACK = parameters.BLACK
-WHITE = parameters.WHITE
-BLUE  = parameters.BLUE
-GREEN = parameters.GREEN
-RED   = parameters.RED
+#from animation import Animation
+#import math
+import utils
 
 class Player(pygame.sprite.Sprite):
     
     def __init__(self, x, y, direction, filename, level):
+        
+        #
+        self.parameters = level.parameters
             
         # appelle le constructeur de la classe parent (Sprite)
         pygame.sprite.Sprite.__init__(self)
@@ -37,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         
         # charge l'image du joueur
         self.image_save = pygame.image.load(filename).convert_alpha()
-        self.image_save = pygame.transform.scale(self.image_save, (parameters.PLAYER_WIDTH, parameters.PLAYER_HEIGHT))
+        self.image_save = pygame.transform.scale(self.image_save, (self.parameters.PLAYER_WIDTH, self.parameters.PLAYER_HEIGHT))
         self.image = self.image_save
         
         # définit une couleur comme transparente
@@ -76,7 +61,7 @@ class Player(pygame.sprite.Sprite):
         #self.player_image.set_colorkey(BLACK)
         
         # nombre de vies du joueur
-        self.lives = parameters.PLAYER_LIVES
+        self.lives = self.parameters.PLAYER_LIVES
         
         # indicateur a été touché par un ennemi
         self.touched = False
@@ -100,82 +85,19 @@ class Player(pygame.sprite.Sprite):
         elif self.change_y < 0:
             self.image = pygame.transform.rotate(self.image_save, 90)        
     
-    def update(self): #, horizontal_blocks, vertical_blocks):
+    def update(self):
         
-        # on vérifie si le joueur est sorti du terrain de jeu
-        # sachant que le terrain de jeu est centré à l'écran
-        # et qu'il se déplace sur un tore
-        FX = self.level.field_x
-        FY = self.level.field_y
-        FW = self.level.field_width
-        FH = self.level.field_height
-        dx = parameters.PLAYER_WIDTH / 2
-        dy = parameters.PLAYER_HEIGHT / 2
-        if self.rect.right < (FX + dx) :
-            self.rect.left = FX + FW - dx
-        elif self.rect.left > (FX + FW - dx):
-            self.rect.right = FX + dx
-        if self.rect.bottom < (FY + dy):
-            self.rect.top = FY + FH - dy
-        elif self.rect.top > (FY + FH - dy):
-            self.rect.bottom = FY + dy
+        # sorti du terrain de jeu
+        utils.update_state_tore(self)
             
         # déplace le joueur
         self.rect.x += self.change_x
         self.rect.y += self.change_y
         
-        # on évite les collisions avec les murs en utilisant les ShadowWall
-        for block in pygame.sprite.spritecollide(self, self.level.shadow_walls, False):
-            # coordinates of the center of the player in the (x,y) plane centered in the block
-            x = self.rect.centerx - block.rect.centerx
-            y = block.rect.centery - self.rect.centery
-            # 
-            # get the angle of the vector (x,y) in the (x,y) plane
-            angle = math.atan2(y, x) # between -pi and pi
-            angle = angle % (2*math.pi) # between 0 and 2*pi
-            # get the angle of reference for the block: 
-            # that is tha angle of the vector joining the center and the top right corner of the block
-            angle_ref = math.atan2(block.rect.height/2, block.rect.width/2)
-            angle_ref = angle_ref % (2*math.pi) # between 0 and 2*pi
-            if not (angle_ref >= 0 and angle_ref < math.pi/2):
-                raise ValueError("angle_ref = %f" % angle_ref)
-            # the following will be at approximately epsilon, that is for instance if the angle is close
-            # to the angle of reference at epsilon, then we do nothing. This will help to turn the player
-            epsilon =  parameters.PLAYER_EPSILON_WALL
-            # if angle is between angle_ref and -angle_ref, then the player is in the right direction
-            # so self.change_x can not be negative
-            #if angle >= (2.0*math.pi-angle_ref) or angle<angle_ref:
-            if angle > (2.0*math.pi-angle_ref+epsilon) or angle < (angle_ref-epsilon):
-                self.change_x = 0
-                self.rect.left = block.rect.right
-            # if angle is between angle_ref and pi-angle_ref, then the player is in the top direction
-            # so self.change_y can not be negative
-            #if angle >= angle_ref and angle < (math.pi-angle_ref):
-            if angle > (angle_ref+epsilon) and angle < (math.pi-angle_ref-epsilon):
-                self.change_y = 0
-                self.rect.bottom = block.rect.top
-            # if angle is between -pi+angle_ref and angle_ref, then the player is in the left direction
-            #if angle >= (math.pi-angle_ref) and angle < (math.pi+angle_ref):
-            if angle > (math.pi-angle_ref+epsilon) and angle < (math.pi+angle_ref-epsilon):
-                self.change_x = 0
-                self.rect.right = block.rect.left
-            # if angle is between pi-angle_ref and 2*pi-angle_ref, then the player is in the bottom direction
-            #if angle >= (math.pi+angle_ref) and angle < (2*math.pi-angle_ref):
-            if angle > (math.pi+angle_ref+epsilon) and angle < (2*math.pi-angle_ref-epsilon):
-                self.change_y = 0
-                self.rect.top = block.rect.bottom
-            
-        # # ceci empechera l'utilisateur de monter ou descendre lorsqu'il se trouve à l'intérieur du cadre
-        # d = self.level.distance_to_crossroad(self.rect.centerx, self.rect.centery)
-        # dmin = parameters.PLAYER_DISTANCE_TO_CROSSROAD
-        #for block in pygame.sprite.spritecollide(self, self.level.paths, False):
-        #     if d > dmin:
-        #    self.rect.centery = block.rect.centery
-        #         self.change_y = 0
-        # for block in pygame.sprite.spritecollide(self, vertical_blocks, False):
-        #     if d > dmin:
-        #         self.rect.centerx = block.rect.centerx
-        #         self.change_x = 0
+        # on vérifie les collisions avec les murs
+        e = self.parameters.PLAYER_EPSILON_WALL
+        d = self.parameters.WALL_DISTANCE_TO_CORNER
+        authorized_directions = utils.update_state_collision_walls(self, e, d)
         
         # on change l'orientation de l'image en fonction de l'orientation du joueur
         self.update_image_from_direction()
@@ -195,36 +117,16 @@ class Player(pygame.sprite.Sprite):
         #     self.image = self.move_up_animation.get_current_image()
                 
     def move_right(self):
-        self.change_x = parameters.PLAYER_SPEED
+        self.change_x = self.parameters.PLAYER_SPEED
         
     def move_left(self):
-        self.change_x = -parameters.PLAYER_SPEED
+        self.change_x = -self.parameters.PLAYER_SPEED
         
     def move_up(self):
-        self.change_y = -parameters.PLAYER_SPEED
+        self.change_y = -self.parameters.PLAYER_SPEED
         
     def move_down(self):
-        self.change_y = parameters.PLAYER_SPEED
-        
-    # def stop_move_right(self):
-    #     if self.change_x != 0:
-    #         self.image = self.player_image
-    #     self.change_x = 0
-        
-    # def stop_move_left(self):
-    #     if self.change_x != 0:
-    #         self.image = pygame.transform.flip(self.player_image, True, False)
-    #     self.change_x = 0
-        
-    # def stop_move_up(self):
-    #     if self.change_y != 0:
-    #         self.image = pygame.transform.rotate(self.player_image, 90)
-    #     self.change_y = 0
-        
-    # def stop_move_down(self):
-    #     if self.change_y != 0:
-    #         self.image = pygame.transform.rotate(self.player_image, 270)
-    #     self.change_y = 0
+        self.change_y = self.parameters.PLAYER_SPEED
         
     def stop_move_x(self):
         self.change_x = 0

@@ -3,38 +3,29 @@ from player import Player
 from ennemies import Ennemy
 from assets import Ellipse, Block, Wall, ShadowWall
 from errors import InternalException
-from parameters import Parameters
-
-# les paramètres du jeu
-parameters = Parameters()
-
-# couleurs du jeu
-BLUE  = parameters.BLUE 
-WHITE = parameters.WHITE
-BLACK = parameters.BLACK
 
 # Les positions sont relatives au terrain de jeu
 class Levels():
     
-    def __init__(self, level, SCREEN_WIDTH, SCREEN_HEIGHT):
+    def __init__(self, level_number, parameters):
         
-        self.SCREEN_WIDTH  = SCREEN_WIDTH
-        self.SCREEN_HEIGHT = SCREEN_HEIGHT
+        # paramètres du jeu
+        self.parameters = parameters
         
         # niveau du jeu
         # self.level = level
-        if level > 1:
+        if level_number > 1:
             raise(InternalException("Level not found"))
         
         # environnement
-        self.environment = self.environment(level)
+        self.environment = self.environment(level_number)
         
         # on calcule les dimensions du terrain de jeu
         self.field_width, self.field_height = self.dimensions(self.environment)
         print("field_width: ", self.field_width)
         print("field_height: ", self.field_height)
-        self.field_x = (self.SCREEN_WIDTH  - self.field_width ) / 2
-        self.field_y = (self.SCREEN_HEIGHT - self.field_height) / 2
+        self.field_x = (self.parameters.SCREEN_WIDTH  - self.field_width ) / 2
+        self.field_y = (self.parameters.SCREEN_HEIGHT - self.field_height) / 2
         
         # 
         paths, walls, dots, ennemies, players, empty_blocks, shadow_walls = self.intialize(self.environment)
@@ -46,36 +37,8 @@ class Levels():
         self.empty_blocks = empty_blocks
         self.shadow_walls  = shadow_walls
     
-    def environment(self, level):
-        if level == 1:
-            # legend: 
-            # vertical wall: '|'
-            # horizontal wall: '-'
-            # square wall: '▪'
-            # path: 'o'
-            grid = (('▪-▪-▪-▪-▪-▪-▪-▪ ▪-▪-▪-▪-▪-▪-▪-▪'),
-                    ('|•|• • • •|• •|• • •|• •|• • •|'),
-                    ('▪ ▪ ▪ ▪-▪-▪ ▪ ▪-▪-▪ ▪ ▪ ▪ ▪-▪ ▪'),
-                    ('|• •|• • • •|• • • •|•|•|•|• •|'),
-                    ('▪ ▪-▪-▪-▪-▪ ▪-▪-▪ ▪ ▪ ▪-▪ ▪ ▪-▪'),
-                    ('|•|• •|• • •|•|• •|• •|• •|• •|'),
-                    ('▪ ▪ ▪ ▪ ▪-▪-▪ ▪ ▪-▪-▪ ▪ ▪-▪-▪ ▪'),
-                    ('|•|•|• • •|• •|•|• • •|•|•|• •|'),
-                    ('▪-▪ ▪-▪-▪-▪ ▪-▪ ▪-▪ ▪-▪ ▪ ▪ ▪-▪'),
-                    ('|• • •|• •|• •|• •|•|• •|•|• •|'),
-                    ('▪ ▪-▪ ▪ ▪ ▪ ▪ ▪-▪ ▪ ▪ ▪-▪ ▪-▪ ▪'),
-                    ('|• •|•|•|• •|• •|•|• • • •|•|•|'),
-                    ('▪-▪ ▪-▪ ▪-▪-▪-▪ ▪ ▪-▪-▪-▪-▪ ▪ ▪'),
-                    ('|• • •|• •|• •|• • • • •|• •|•|'),
-                    ('▪ ▪-▪ ▪-▪ ▪-▪ ▪ ▪-▪-▪ ▪ ▪ ▪ ▪ ▪'),
-                    ('|• •|•|•|• •|• •|• •|•|•|•|•|•|'),
-                    ('▪-▪ ▪ ▪ ▪-▪ ▪-▪-▪ ▪ ▪-▪ ▪-▪ ▪ ▪'),
-                    ('|•|•|• • • • •|• •|• •|• •|• •|'),
-                    ('▪ ▪ ▪-▪-▪-▪-▪-▪ ▪-▪-▪ ▪-▪ ▪-▪ ▪'),
-                    ('|• • •|• •|• • •|• •|•|• •|• •|'),
-                    ('▪-▪ ▪ ▪ ▪ ▪ ▪-▪-▪ ▪ ▪ ▪-▪ ▪ ▪-▪'),
-                    ('|• •|• •|•|• •|• •|•|• •|•|• •|'),
-                    ('▪-▪-▪-▪-▪-▪-▪-▪ ▪-▪-▪-▪-▪-▪-▪-▪'))
+    def environment(self, level_number):
+        if level_number == 0:
             grid = (('▪-▪-▪-▪-▪-▪-▪-▪ ▪-▪-▪-▪-▪-▪-▪-▪'),
                     ('                               '),
                     ('    ▪-▪-▪-▪       ▪            '),
@@ -90,6 +53,35 @@ class Levels():
                     ('                               '),
                     ('                               '),
                     ('                               '))
+        elif level_number == 1:
+            # legend: 
+            # vertical wall: '|'
+            # horizontal wall: '-'
+            # square wall: '▪'
+            # path: 'o'
+            grid = (('▪-▪-▪-▪-▪-▪-▪-▪ ▪-▪-▪-▪-▪-▪-▪-▪'),
+                    ('|•|• • • • • •|• • •|• •|• • •|'),
+                    ('▪ ▪ ▪ ▪-▪-▪ ▪ ▪-▪-▪ ▪ ▪ ▪ ▪-▪ ▪'),
+                    ('|• •|• • • •|• • • •|•|•|•|• •|'),
+                    ('▪ ▪-▪-▪-▪-▪ ▪-▪-▪ ▪ ▪ ▪ ▪ ▪ ▪-▪'),
+                    ('|•|• •|• • •|• • •|• •|• •|• •|'),
+                    ('▪ ▪ ▪ ▪ ▪-▪-▪ ▪ ▪-▪-▪ ▪ ▪-▪-▪ ▪'),
+                    ('|•|•|• • •|• •|•|• • •|•|• • •|'),
+                    ('▪ ▪ ▪-▪-▪ ▪ ▪-▪ ▪ ▪ ▪-▪ ▪ ▪ ▪-▪'),
+                    ('|• • •|• •|• •|• •|•|• •|•|• •|'),
+                    ('▪ ▪-▪ ▪ ▪ ▪ ▪ ▪-▪ ▪ ▪ ▪-▪ ▪-▪ ▪'),
+                    ('|• • •|•|• •|• •|•|• • • • •|•|'),
+                    ('▪-▪ ▪-▪ ▪-▪ ▪-▪ ▪ ▪-▪-▪-▪-▪ ▪ ▪'),
+                    ('|• • •|• •|• •|• • • • •|• •|•|'),
+                    ('▪ ▪-▪ ▪ ▪ ▪-▪ ▪ ▪-▪-▪ ▪ ▪ ▪ ▪ ▪'),
+                    ('|• •|•|•|• •|• •|• • •|• •|•|•|'),
+                    ('▪-▪ ▪ ▪ ▪-▪ ▪-▪-▪ ▪ ▪-▪ ▪-▪ ▪ ▪'),
+                    (' •|•|• • • •|x|• •|• • • • • • '),
+                    ('▪ ▪ ▪-▪-▪ ▪-▪-▪ ▪-▪-▪ ▪-▪ ▪-▪ ▪'),
+                    ('|•|• •|• •|• • •|• •|•|x|• • •|'),
+                    ('▪ ▪ ▪ ▪ ▪ ▪ ▪-▪-▪ ▪ ▪ ▪-▪-▪-▪-▪'),
+                    ('|• •|• •|• • • • •|• • • • • •|'),
+                    ('▪-▪-▪-▪-▪-▪-▪-▪ ▪-▪-▪-▪-▪-▪-▪-▪'))
         return grid
     
     def split_row_env(self, row):
@@ -166,21 +158,21 @@ class Levels():
             for j, item in enumerate(self.split_row_env(row)):
                 if self.isverticalwall(item):
                     dx = vertical_wall_width
-                    walls.add(Wall( x, y, parameters.FIELD_WALL_COLOR, dx, vertical_wall_height, self))
-                    shadow_walls.add(ShadowWall( x, y, WHITE, dx, vertical_wall_height, self))
+                    walls.add(Wall( x, y, self.parameters.FIELD_WALL_COLOR, dx, vertical_wall_height, self))
+                    shadow_walls.add(ShadowWall( x, y, self.parameters.WHITE, dx, vertical_wall_height, self))
                     # for dy we take the max between dy and vertical_wall_height
                     # indeed, if we have a vertical wall followed by a horizontal wall, we want to take the max
                     # otherwise, we would have a gap between the two walls
                     dy = max(dy, vertical_wall_height)
                 elif self.ishorizontalwall(item):
                     dx = horizontal_wall_width
-                    walls.add(Wall( x, y, parameters.FIELD_WALL_COLOR, dx, horizontal_wall_height, self))
-                    shadow_walls.add(ShadowWall( x, y, WHITE, dx, horizontal_wall_height, self))
+                    walls.add(Wall( x, y, self.parameters.FIELD_WALL_COLOR, dx, horizontal_wall_height, self))
+                    shadow_walls.add(ShadowWall( x, y, self.parameters.WHITE, dx, horizontal_wall_height, self))
                     dy = max(dy, horizontal_wall_height)
                 elif self.issquarewall(item):
                     dx = square_wall_width
-                    walls.add(Wall( x, y, parameters.FIELD_WALL_COLOR, dx, square_wall_height, self))
-                    shadow_walls.add(ShadowWall( x, y, WHITE, dx, square_wall_height, self))
+                    walls.add(Wall( x, y, self.parameters.FIELD_WALL_COLOR, dx, square_wall_height, self))
+                    shadow_walls.add(ShadowWall( x, y, self.parameters.WHITE, dx, square_wall_height, self))
                     dy = max(dy, square_wall_height)
                 elif self.ispath(item):
                     # si j est pair, on a un chemin de largeur square_wall_width, sinon on a un chemin de largeur path_width
@@ -193,24 +185,24 @@ class Levels():
                         h = square_wall_height
                     else:
                         h = path_height
-                    paths.add(Block(x, y, parameters.FIELD_PATH_COLOR, w, h, self))
+                    paths.add(Block(x, y, self.parameters.FIELD_PATH_COLOR, w, h, self))
                     dx = w
                     dy = max(dy, h)
                 elif self.isemptyblock(item):
                     dx = empty_block_width
-                    empty_blocks.add(Block(x, y, parameters.FIELD_EMPTY_BLOCK_COLOR, dx, empty_block_height, self))
+                    empty_blocks.add(Block(x, y, self.parameters.FIELD_EMPTY_BLOCK_COLOR, dx, empty_block_height, self, alpha=55))
                     dy = max(dy, empty_block_height)
                 if self.isdot(item):
-                    dots.add(Ellipse(x+path_width/2-parameters.ELLIPSE_WIDTH/2, # on positionne le coin supérieur gauche de l'ellipse vu comme un rectangle 
-                                          y+path_height/2-parameters.ELLIPSE_HEIGHT/2, # en son centre
-                                          WHITE, 
-                                          parameters.ELLIPSE_WIDTH, 
-                                          parameters.ELLIPSE_HEIGHT, 
+                    dots.add(Ellipse(x+path_width/2-self.parameters.ELLIPSE_WIDTH/2, # on positionne le coin supérieur gauche de l'ellipse vu comme un rectangle 
+                                          y+path_height/2-self.parameters.ELLIPSE_HEIGHT/2, # en son centre
+                                          self.parameters.WHITE, 
+                                          self.parameters.ELLIPSE_WIDTH, 
+                                          self.parameters.ELLIPSE_HEIGHT, 
                                           self))
                     #dx = 0
                 # if self.isplayer(item):
                 #     direction = self.direction(item)
-                #     players.add(Player(x, y, direction, parameters.PLAYER_IMAGE, self))
+                #     players.add(Player(x, y, direction, self.parameters.PLAYER_IMAGE, self))
                 #     dx = 0
                 # if self.isennemy(item):
                 #     direction = self.direction(item)
@@ -218,25 +210,27 @@ class Levels():
                 #     dx = 0
                 x += dx
             y += dy
-        players.add(Player(100*parameters.UNIT_LENGTH/80, 104*parameters.UNIT_LENGTH/80, \
-            'right', parameters.PLAYER_IMAGE, self)) # à supprimer plus tard
-        #ennemies.add(Ennemy(1000*parameters.UNIT_LENGTH/80, 104*parameters.UNIT_LENGTH/80, 'up', self))
+        players.add(Player(100*self.parameters.UNIT_LENGTH/80, 104*self.parameters.UNIT_LENGTH/80, \
+            'right', self.parameters.PLAYER_IMAGE, self)) # à supprimer plus tard
+        ennemies.add(Ennemy(1000*self.parameters.UNIT_LENGTH/80, 104*self.parameters.UNIT_LENGTH/80, 'up', self))
+        ennemies.add(Ennemy(300*self.parameters.UNIT_LENGTH/80, 500*self.parameters.UNIT_LENGTH/80, 'up', self))
+        ennemies.add(Ennemy(600*self.parameters.UNIT_LENGTH/80, 800*self.parameters.UNIT_LENGTH/80, 'up', self))
         return paths, walls, dots, ennemies, players, empty_blocks, shadow_walls
     
     def get_size_horizontal_wall(self):
-        return parameters.WALL_BIG_LENGTH, parameters.WALL_SMALL_LENGTH
+        return self.parameters.WALL_BIG_LENGTH, self.parameters.WALL_SMALL_LENGTH
     
     def get_size_vertical_wall(self):
-        return parameters.WALL_SMALL_LENGTH, parameters.WALL_BIG_LENGTH
+        return self.parameters.WALL_SMALL_LENGTH, self.parameters.WALL_BIG_LENGTH
     
     def get_size_square_wall(self):
-        return parameters.WALL_SMALL_LENGTH, parameters.WALL_SMALL_LENGTH
+        return self.parameters.WALL_SMALL_LENGTH, self.parameters.WALL_SMALL_LENGTH
     
     def get_size_path(self):
-        return parameters.BLOCK_WIDTH, parameters.BLOCK_HEIGHT
+        return self.parameters.BLOCK_WIDTH, self.parameters.BLOCK_HEIGHT
     
     def get_size_empty_block(self):
-        return parameters.BLOCK_WIDTH, parameters.BLOCK_HEIGHT
+        return self.parameters.BLOCK_WIDTH, self.parameters.BLOCK_HEIGHT
     
     def isemptyblock(self, item):
         return 'x' in item
