@@ -115,7 +115,7 @@ class Parameters():
         #
         self.WALL_BIG_LENGTH    = self.UNIT_LENGTH #32
         self.WALL_SMALL_LENGTH  = 2*self.UNIT_LENGTH//26  #3
-        self.WALL_DISTANCE_TO_CORNER = self.UNIT_LENGTH//2
+        self.WALL_DISTANCE_TO_CORNER = self.UNIT_LENGTH//2.5
         #
         self.ELLIPSE_WIDTH      = self.UNIT_LENGTH//4
         self.ELLIPSE_HEIGHT     = self.UNIT_LENGTH//4

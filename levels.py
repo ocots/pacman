@@ -212,7 +212,9 @@ class Levels():
             y += dy
         players.add(Player(100*self.parameters.UNIT_LENGTH/80, 104*self.parameters.UNIT_LENGTH/80, \
             'right', self.parameters.PLAYER_IMAGE, self)) # à supprimer plus tard
-        #ennemies.add(Ennemy(1000*parameters.UNIT_LENGTH/80, 104*parameters.UNIT_LENGTH/80, 'up', self))
+        ennemies.add(Ennemy(1000*self.parameters.UNIT_LENGTH/80, 104*self.parameters.UNIT_LENGTH/80, 'up', self))
+        ennemies.add(Ennemy(300*self.parameters.UNIT_LENGTH/80, 500*self.parameters.UNIT_LENGTH/80, 'up', self))
+        ennemies.add(Ennemy(600*self.parameters.UNIT_LENGTH/80, 800*self.parameters.UNIT_LENGTH/80, 'up', self))
         return paths, walls, dots, ennemies, players, empty_blocks, shadow_walls
     
     def get_size_horizontal_wall(self):

@@ -97,7 +97,7 @@ class Player(pygame.sprite.Sprite):
         # on vérifie les collisions avec les murs
         e = self.parameters.PLAYER_EPSILON_WALL
         d = self.parameters.WALL_DISTANCE_TO_CORNER
-        x_blocked, y_blocked = utils.update_state_collision_walls(self, e, d)
+        authorized_directions = utils.update_state_collision_walls(self, e, d)
         
         # on change l'orientation de l'image en fonction de l'orientation du joueur
         self.update_image_from_direction()
