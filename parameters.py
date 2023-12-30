@@ -21,7 +21,11 @@ class Actions(Enum):
 
 class Parameters():
     
-    def __init__(self):
+    def __init__(self, SCREEN_WIDTH, SCREEN_HEIGHT):
+        
+        #
+        self.SCREEN_WIDTH = SCREEN_WIDTH
+        self.SCREEN_HEIGHT = SCREEN_HEIGHT
         
         # couleurs
         self.BLACK = (0, 0, 0)
@@ -72,7 +76,10 @@ class Parameters():
         self.SCORE_FONT_SIZE    = 35
         
         #
-        self.UNIT_LENGTH        = 52 #80 #52
+        if self.SCREEN_WIDTH <= 1200 or self.SCREEN_HEIGHT <= 800:
+            self.UNIT_LENGTH = 52
+        else:
+            self.UNIT_LENGTH = 80
         
         # GAME
         self.MUSIC              = ( "resources/soprano-coach.mp3",
@@ -108,7 +115,7 @@ class Parameters():
         #
         self.WALL_BIG_LENGTH    = self.UNIT_LENGTH #32
         self.WALL_SMALL_LENGTH  = 2*self.UNIT_LENGTH//26  #3
-        self.WALL_DISTANCE_TO_CORNER = self.UNIT_LENGTH//2
+        self.WALL_DISTANCE_TO_CORNER = self.UNIT_LENGTH//2.5
         #
         self.ELLIPSE_WIDTH      = self.UNIT_LENGTH//4
         self.ELLIPSE_HEIGHT     = self.UNIT_LENGTH//4
@@ -118,4 +125,7 @@ class Parameters():
         self.GAME_BACKGROUND_COLOR = self.GRAY
         self.FIELD_WALL_COLOR = self.BLACK
         self.FIELD_PATH_COLOR = self.ROUGE_BRIQUE
-        self.FIELD_EMPTY_BLOCK_COLOR = self.BLUE_MATE
+        self.FIELD_EMPTY_BLOCK_COLOR = self.BLACK
+        
+        # LEVEL
+        self.LEVEL_BACKGROUND_IMAGE = "resources/level-background.jpg"

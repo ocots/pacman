@@ -1,11 +1,4 @@
 import pygame
-from parameters import Parameters
-
-# les paramètres du jeu
-parameters = Parameters()
-
-# définit les couleurs du jeu
-BLACK = parameters.BLACK
 
 class Animation(object):
     
@@ -25,6 +18,7 @@ class Animation(object):
     def get_image(self, x, y, width, height):
         image = pygame.Surface([width, height]).convert()
         image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
+        BLACK = (0, 0, 0)
         image.set_colorkey(BLACK)
         return image
     
