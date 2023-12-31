@@ -97,9 +97,15 @@ class Menu(object):
                                            item_option,
                                            item_about, 
                                            item_quit])
+        
+        #
+        self.level_node = item_level
     
     def item(self):
         return self.parameters.MENUITEMS(self.state.current.itemid)
+
+    def get_level(self):
+        return self.level_node.values[self.level_node.index]        
    
     # affiche le menu
     def print_menu_tree(self, node, level=0):

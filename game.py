@@ -25,7 +25,7 @@ class Game(object):
         self.menu = Menu(self.parameters)
         
         # mise en place du niveau 1 du jeu
-        self.level = Levels(1, self.parameters)
+        self.level = Levels(self.menu.get_level(), self.parameters)
 
         # on démarre la musique
         try:
@@ -51,7 +51,7 @@ class Game(object):
     def reset_level(self):
         
         # mise en place du niveau 1 du jeu
-        self.level = Levels(1, self.parameters)
+        self.level = Levels(self.menu.get_level(), self.parameters)
         
         # on démarre la musique
         try:

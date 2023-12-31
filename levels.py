@@ -14,7 +14,7 @@ class Levels():
         
         # niveau du jeu
         # self.level = level
-        if level_number > 1:
+        if level_number > 2:
             raise(InternalException("Level not found"))
         
         # environnement
@@ -28,7 +28,7 @@ class Levels():
         self.field_y = (self.parameters.SCREEN_HEIGHT - self.field_height) / 2
         
         # 
-        paths, walls, dots, ennemies, players, empty_blocks, shadow_walls = self.intialize(self.environment)
+        paths, walls, dots, ennemies, players, empty_blocks, shadow_walls = self.intialize(self.environment, level_number)
         self.paths        = paths
         self.walls        = walls
         self.dots         = dots
@@ -38,7 +38,7 @@ class Levels():
         self.shadow_walls  = shadow_walls
     
     def environment(self, level_number):
-        if level_number == 0:
+        if level_number == 2:
             grid = (('▪-▪-▪-▪-▪-▪-▪-▪ ▪-▪-▪-▪-▪-▪-▪-▪'),
                     ('                               '),
                     ('    ▪-▪-▪-▪       ▪            '),
@@ -132,7 +132,7 @@ class Levels():
             y += dy
         return x, y
     
-    def intialize(self, environment):
+    def intialize(self, environment, level_number):
         # on parcours l'environnement et crée les structures au fur et à mesure
         # pour cela, nous allons avoir besoin des différentes tailles
         horizontal_wall_width, horizontal_wall_height = self.get_size_horizontal_wall()
@@ -212,9 +212,10 @@ class Levels():
             y += dy
         players.add(Player(100*self.parameters.UNIT_LENGTH/80, 104*self.parameters.UNIT_LENGTH/80, \
             'right', self.parameters.PLAYER_IMAGE, self)) # à supprimer plus tard
-        ennemies.add(Ennemy(1000*self.parameters.UNIT_LENGTH/80, 104*self.parameters.UNIT_LENGTH/80, 'up', self))
-        ennemies.add(Ennemy(300*self.parameters.UNIT_LENGTH/80, 500*self.parameters.UNIT_LENGTH/80, 'up', self))
-        ennemies.add(Ennemy(600*self.parameters.UNIT_LENGTH/80, 800*self.parameters.UNIT_LENGTH/80, 'up', self))
+        if level_number == 1:
+            ennemies.add(Ennemy(1000*self.parameters.UNIT_LENGTH/80, 104*self.parameters.UNIT_LENGTH/80, 'up', self))
+            ennemies.add(Ennemy(300*self.parameters.UNIT_LENGTH/80, 500*self.parameters.UNIT_LENGTH/80, 'up', self))
+            ennemies.add(Ennemy(600*self.parameters.UNIT_LENGTH/80, 800*self.parameters.UNIT_LENGTH/80, 'up', self))
         return paths, walls, dots, ennemies, players, empty_blocks, shadow_walls
     
     def get_size_horizontal_wall(self):
