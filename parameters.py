@@ -5,6 +5,8 @@ class MenuItems(Enum):
     PLAY  = 0
     ABOUT = 1
     QUIT  = 2
+    LEVEL = 3
+    OPTION = 4
     
 class Frames(Enum):
     MENU  = 0
@@ -18,6 +20,10 @@ class Actions(Enum):
     GAMEOVER = 3
     EMPTY    = 4
     ESCAPE   = 5
+    DOWN     = 6
+    UP       = 7
+    LEFT     = 8
+    RIGHT    = 9
 
 class Parameters():
     
@@ -58,11 +64,10 @@ class Parameters():
         self.MENU_FONT_SIZE         = 60
         self.MENU_TT_FONT           = None
         self.MENU_ITEMS_NAMES       = { self.MENUITEMS.PLAY: 'Jouer',
+                                        self.MENUITEMS.LEVEL: 'Niveau',
+                                        self.MENUITEMS.OPTION: 'Options',
                                         self.MENUITEMS.ABOUT: 'A propos',
                                         self.MENUITEMS.QUIT: 'Quitter'}
-        self.MENU_ITEMS             = ( self.MENUITEMS.PLAY,
-                                        self.MENUITEMS.ABOUT,
-                                        self.MENUITEMS.QUIT)
         
         # DEFAULT FONT COLOR
         self.FONT_COLOR = self.WHITE

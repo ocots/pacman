@@ -3,6 +3,7 @@ import datetime
 import random
 from levels import Levels
 from menu import Menu
+import utils
 
 class Game(object):
     
@@ -64,6 +65,7 @@ class Game(object):
         self.clock = pygame.time.Clock()
         self.temps = 0
 
+    # mise à jour de l'état du jeu
     def update_state(self, action):
         
         # si l'action est de quitter le jeu depuis n'importe quel état
@@ -108,6 +110,7 @@ class Game(object):
                 self.state["frame"]  = self.parameters.FRAMES.MENU
                 self.state["action"] = self.parameters.ACTIONS.EMPTY
         
+    # gère les évènements du jeu
     def process_events(self):
         
         # boucle des évènements
@@ -128,7 +131,7 @@ class Game(object):
                     
             # mise à jour de l'état du menu si on est dans le menu
             if self.state["frame"] == self.parameters.FRAMES.MENU:
-                self.menu.event_handler(event)
+                self.menu.process_event(event)
             
             # si l'on est dans le jeu est pas game over
             if self.state["frame"] == self.parameters.FRAMES.GAME and not \
@@ -221,8 +224,11 @@ class Game(object):
             
         # sinon si on est dans le about
         elif self.state["frame"] == self.parameters.FRAMES.ABOUT:
-            self.display_message(screen, "Jeu à la Pacman. Développé par Olivier et Léon Cots", \
-                color_font=self.parameters.BLACK, color_background=self.parameters.WHITE)
+            utils.display_message(screen, "Jeu à la Pacman. Développé par Olivier et Léon Cots",
+                self.parameters, 
+                font = self.font,
+                color_font=self.parameters.BLACK, 
+                color_background=self.parameters.WHITE)
             
         # sinon si on est dans le jeu et pas game over
         elif self.state["frame"] == self.parameters.FRAMES.GAME:
@@ -301,17 +307,4 @@ class Game(object):
             
         # rafraichissement de l'écran
         pygame.display.flip()
-        
-    # affiche un message à l'écran
-    def display_message(self, screen, message, *, color_font, color_background):
-        #
-        label  = self.font.render(message, True, color_font)
-        width  = label.get_width()
-        height = label.get_height()
-        posX   = (self.parameters.SCREEN_WIDTH / 2) - (width / 2)
-        posY   = (self.parameters.SCREEN_HEIGHT / 2) - (height / 2)
-        # on ajoute un panneau autour du message
-        d = 50
-        pygame.draw.rect(screen, color_background, [posX - d, posY - d, width + 2*d, height + 2*d])
-        # on affiche le message
-        screen.blit(label, (posX, posY))
+

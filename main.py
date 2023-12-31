@@ -18,7 +18,7 @@ def main():
     # pygame setup
     pygame.init()
     pygame.display.set_caption("Pacman")
-    screen  = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+    screen  = pygame.display.set_mode([SCREEN_WIDTH//2, SCREEN_HEIGHT//2])
     running = True
     clock   = pygame.time.Clock()
     

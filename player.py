@@ -1,6 +1,5 @@
 import pygame
 #from animation import Animation
-#import math
 import utils
 
 class Player(pygame.sprite.Sprite):

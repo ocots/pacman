@@ -1,6 +1,20 @@
 import pygame
 import math
 
+# affiche un message à l'écran
+def display_message(screen, message, parameters, *, font, color_font, color_background):
+    #
+    label  = font.render(message, True, color_font)
+    width  = label.get_width()
+    height = label.get_height()
+    posX   = (parameters.SCREEN_WIDTH / 2) - (width / 2)
+    posY   = (parameters.SCREEN_HEIGHT / 2) - (height / 2)
+    # on ajoute un panneau autour du message
+    d = 50
+    pygame.draw.rect(screen, color_background, [posX - d, posY - d, width + 2*d, height + 2*d])
+    # on affiche le message
+    screen.blit(label, (posX, posY))
+
 def update_state_tore(sprite):
     # on vérifie si le sprite est sorti du terrain de jeu
     # sachant que le terrain de jeu est centré à l'écran
