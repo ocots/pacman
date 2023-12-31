@@ -91,8 +91,8 @@ class Game(object):
                 elif self.menu.item() == self.parameters.MENUITEMS.QUIT:
                     self.state["action"] = self.parameters.ACTIONS.QUIT
                     
-            elif action == self.parameters.ACTIONS.ESCAPE:
-                self.state["action"] = self.parameters.ACTIONS.QUIT
+            #elif action == self.parameters.ACTIONS.ESCAPE:
+            #    self.state["action"] = self.parameters.ACTIONS.QUIT
                 
         # si on est dans le about
         elif self.state["frame"] == self.parameters.FRAMES.ABOUT:

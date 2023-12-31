@@ -119,10 +119,7 @@ class Menu(object):
    
     # mise à jour de l'état du menu
     def update_state(self, action):
-        #
-        print("update_state")
         
-        # update self.state.current
         current = self.state.current
         if action == self.parameters.ACTIONS.UP:
             if current.brother_left is not None:
@@ -152,7 +149,7 @@ class Menu(object):
                 self.state.current = current.parent
         
         #
-        self.print_menu_tree(self.state)
+        # self.print_menu_tree(self.state)
    
     # gère les événements clavier dans le menu
     def process_event(self, event):
@@ -173,36 +170,54 @@ class Menu(object):
                 self.update_state(self.parameters.ACTIONS.BACK)
 
     def display_frame(self, screen):
-        pass
-        # # on efface l'écran
-        # screen.fill(self.parameters.MENU_BACKGROUND_COLOR)
         
-        # # on affiche le titre du jeu
-        # label = self.font.render(self.parameters.TITLE, True, self.parameters.MENU_TITLE_COLOR)
-        # # on calcule la position du texte
-        # width  = label.get_width()
-        # height = label.get_height()
-        # posX = (self.parameters.SCREEN_WIDTH / 2) - (width / 2)
-        # posY = 0.25 * ( (self.parameters.SCREEN_HEIGHT / 2) - (height / 2) )
-        # screen.blit(label, (posX, posY))
+        # on efface l'écran
+        screen.fill(self.parameters.MENU_BACKGROUND_COLOR)
         
-        # for index, item in enumerate(self.parameters.MENU_ITEMS):
-        #     if self.state == index:
-        #         # si l'item est sélectionné, on affiche le texte avec la couleur de sélection
-        #         label = self.font.render(self.parameters.MENU_ITEMS_NAMES[item], 
-        #                                  True, self.parameters.MENU_SELECT_COLOR)
-        #     else:
-        #         # sinon on affiche le texte avec la couleur par défaut
-        #         label = self.font.render(self.parameters.MENU_ITEMS_NAMES[item], 
-        #                                  True, self.parameters.MENU_FONT_COLOR)
+        # on affiche le titre du jeu
+        label = self.font.render(self.parameters.TITLE, True, self.parameters.MENU_TITLE_COLOR)
+        # on calcule la position du texte
+        width  = label.get_width()
+        height = label.get_height()
+        posX = (self.parameters.SCREEN_WIDTH / 2) - (width / 2)
+        posY = 0.25 * ( (self.parameters.SCREEN_HEIGHT / 2) - (height / 2) )
+        screen.blit(label, (posX, posY))
+        
+        posX     = (self.parameters.SCREEN_WIDTH / 4)  # - (width / 2)
+        posYs    = []
+        maxwidth = 0
+        items = self.state.current.parent.children
+        for index, item in enumerate(items):
             
-        #     # on calcule la position du texte
-        #     width  = label.get_width()
-        #     height = label.get_height()
-        #     posX = (self.parameters.SCREEN_WIDTH / 2) - (width / 2)
-        #     t_h = len(self.parameters.MENU_ITEMS) * height # t_h: total height of text block
-        #     posY = (self.parameters.SCREEN_HEIGHT / 2) - (t_h / 2) + (index * height)
-        #     screen.blit(label, (posX, posY))
+            if item == self.state.current:
+                color = self.parameters.MENU_SELECT_COLOR
+            else:
+                color = self.parameters.MENU_ITEM_COLOR
+            
+            label  = self.font.render(item.name, True, color)
+            width  = label.get_width()
+            maxwidth = max(maxwidth, width)
+            height = 1.5*label.get_height()
+            t_h    = len(items) * height
+            posY   = (self.parameters.SCREEN_HEIGHT / 2) - (t_h / 2) + (index * height)
+            posYs.append(posY)
+            screen.blit(label, (posX, posY))
+            
+        for index, item in enumerate(items):
+                    
+            if item == self.state.current:
+                color = self.parameters.MENU_SELECT_COLOR
+            else:
+                color = self.parameters.MENU_ITEM_COLOR
+                
+            if item.values is not None:
+                value = " < " + str(item.values[item.index]) + " >"
+            else:
+                value = ""
+            
+            label = self.font.render(value, True, color)
+            posY  = posYs[index]
+            screen.blit(label, (posX + 1.1*maxwidth, posY))
              
     # make a MenuLeaf or a MenuNoLeaf
     def make_item(self, *, itemid, name, values=None, children=None):

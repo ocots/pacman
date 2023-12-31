@@ -60,8 +60,9 @@ class Parameters():
         self.MENU_BACKGROUND_COLOR  = self.WHITE
         self.MENU_TITLE_COLOR       = self.BLUE_MATE
         self.MENU_FONT_COLOR        = self.BLACK
+        self.MENU_ITEM_COLOR        = self.BLACK
         self.MENU_SELECT_COLOR      = self.RED
-        self.MENU_FONT_SIZE         = 60
+        self.MENU_FONT_SIZE         = 40
         self.MENU_TT_FONT           = None
         self.MENU_ITEMS_NAMES       = { self.MENUITEMS.PLAY: 'Jouer',
                                         self.MENUITEMS.LEVEL: 'Niveau',
