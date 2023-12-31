@@ -88,12 +88,12 @@ class Parameters():
             self.UNIT_LENGTH = 80
         
         # GAME
-        self.MUSIC              = ( "resources/soprano-coach.mp3",
-                                    "resources/soprano-marseille.mp3",
-                                    "resources/alonzo-normal.mp3",
-                                    "resources/bigflo-oli-coup-vieux.mp3",
-                                    "resources/biglo-oli-ca-va-beaucoup-trop-vite.mp3",
-                                    "resources/soprano-chasseur-d-etoiles.mp3")
+        self.MUSIC              = ( "resources/music/soprano-coach.mp3",
+                                    "resources/music/soprano-marseille.mp3",
+                                    "resources/music/alonzo-normal.mp3",
+                                    "resources/music/bigflo-oli-coup-vieux.mp3",
+                                    "resources/music/biglo-oli-ca-va-beaucoup-trop-vite.mp3",
+                                    "resources/music/soprano-chasseur-d-etoiles.mp3")
         self.SOUND_GAME_OVER    = "resources/game_over.wav"
         
         # JOUEUR
