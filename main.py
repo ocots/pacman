@@ -9,9 +9,6 @@ def main():
     root.withdraw()
     SCREEN_WIDTH, SCREEN_HEIGHT = root.winfo_screenwidth(), root.winfo_screenheight()
     
-    print("SCREEN_WIDTH: ", SCREEN_WIDTH)
-    print("SCREEN_HEIGHT: ", SCREEN_HEIGHT)
-    
     # paramètres du jeu
     parameters = Parameters(SCREEN_WIDTH, SCREEN_HEIGHT)
     

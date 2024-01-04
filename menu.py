@@ -61,7 +61,34 @@ class MenuTree(MenuNode):
         if len(children) == 0:
             raise ValueError("children must not be an empty list")
         self.current = self.children[0]
+
+# make a MenuLeaf or a MenuNoLeaf
+def make_item(*, itemid, name, values=None, children=None):
+    if children is None:
+        if values is None:
+            return MenuLeafSimple(itemid, name)
+        else:
+            # if values is empty raise an error
+            if len(values) == 0:
+                raise ValueError("values must not be an empty list")
+            return MenuLeafValues(itemid, name, values)
+    else:
+        return MenuNoLeaf(itemid, name, children)
     
+# make a submenu from a list of items, an itemid and a name
+def make_submenu(*, itemid, name, subitems):
+    # if subitems is empty raise an error
+    if len(subitems) == 0:
+        raise ValueError("subitems must not be an empty list")
+    return make_item(itemid=itemid, name=name, children=subitems)
+
+# make a menu from a list of items
+def make_menu(*, items):
+    # if items is empty raise an error
+    if len(items) == 0:
+        raise ValueError("items must not be an empty list")
+    return MenuTree(items)
+
 #
 class Menu(object):
     
@@ -76,27 +103,27 @@ class Menu(object):
         MENU_ITEMS_NAMES = self.parameters.MENU_ITEMS_NAMES
         
         # 
-        item_play  = self.make_item(itemid=MENUITEMS.PLAY,  name=MENU_ITEMS_NAMES[MENUITEMS.PLAY])
-        item_level = self.make_item(itemid=MENUITEMS.LEVEL, name=MENU_ITEMS_NAMES[MENUITEMS.LEVEL],
-                                    values=[1, 2])
-        item_about = self.make_item(itemid=MENUITEMS.ABOUT, name=MENU_ITEMS_NAMES[MENUITEMS.ABOUT])
-        item_quit  = self.make_item(itemid=MENUITEMS.QUIT,  name=MENU_ITEMS_NAMES[MENUITEMS.QUIT])
+        item_play  = make_item(itemid=MENUITEMS.PLAY,  name=MENU_ITEMS_NAMES[MENUITEMS.PLAY])
+        item_level = make_item(itemid=MENUITEMS.LEVEL, name=MENU_ITEMS_NAMES[MENUITEMS.LEVEL],
+                                    values=[1, 0])
+        item_about = make_item(itemid=MENUITEMS.ABOUT, name=MENU_ITEMS_NAMES[MENUITEMS.ABOUT])
+        item_quit  = make_item(itemid=MENUITEMS.QUIT,  name=MENU_ITEMS_NAMES[MENUITEMS.QUIT])
         
         # 
-        item_opt_fullscreen = self.make_item(itemid=MENUITEMS.OPTION, name='Plein écran',
+        item_opt_fullscreen = make_item(itemid=MENUITEMS.OPTION, name='Plein écran',
                                              values=[False, True])
-        item_opt_sound      = self.make_item(itemid=MENUITEMS.OPTION, name='Son        ',
+        item_opt_sound      = make_item(itemid=MENUITEMS.OPTION, name='Son        ',
                                              values=[False, True])
-        item_option = self.make_submenu(itemid=MENUITEMS.OPTION, 
+        item_option = make_submenu(itemid=MENUITEMS.OPTION, 
                                         name=MENU_ITEMS_NAMES[MENUITEMS.OPTION],
                                         subitems=[item_opt_fullscreen, item_opt_sound])
         
         #
-        self.state = self.make_menu(items=[item_play, 
-                                           item_level, 
-                                           item_option,
-                                           item_about, 
-                                           item_quit])
+        self.state = make_menu(items=[item_play, 
+                                      item_level, 
+                                      item_option,
+                                      item_about, 
+                                      item_quit])
         
         #
         self.level_node = item_level
@@ -224,30 +251,3 @@ class Menu(object):
             label = self.font.render(value, True, color)
             posY  = posYs[index]
             screen.blit(label, (posX + 1.1*maxwidth, posY))
-             
-    # make a MenuLeaf or a MenuNoLeaf
-    def make_item(self, *, itemid, name, values=None, children=None):
-        if children is None:
-            if values is None:
-                return MenuLeafSimple(itemid, name)
-            else:
-                # if values is empty raise an error
-                if len(values) == 0:
-                    raise ValueError("values must not be an empty list")
-                return MenuLeafValues(itemid, name, values)
-        else:
-            return MenuNoLeaf(itemid, name, children)
-        
-    # make a submenu from a list of items, an itemid and a name
-    def make_submenu(self, *, itemid, name, subitems):
-        # if subitems is empty raise an error
-        if len(subitems) == 0:
-            raise ValueError("subitems must not be an empty list")
-        return self.make_item(itemid=itemid, name=name, children=subitems)
-    
-    # make a menu from a list of items
-    def make_menu(self, *, items):
-        # if items is empty raise an error
-        if len(items) == 0:
-            raise ValueError("items must not be an empty list")
-        return MenuTree(items)

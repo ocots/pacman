@@ -2,10 +2,10 @@ import pygame
 
 class Ellipse(pygame.sprite.Sprite):
     
-    def __init__(self, x, y, color, width, height, level):
+    def __init__(self, x, y, color, width, height, origin):
         
         #
-        BLACK = level.parameters.BLACK
+        BLACK = (0, 0, 0)
         
         # appelle le constructeur de la classe parent (Sprite)
         pygame.sprite.Sprite.__init__(self)
@@ -18,11 +18,11 @@ class Ellipse(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # on positionne le point à l'écran en fonction de sa position dans le terrain de jeu
         # sachant que le terrain de jeu est centré à l'écran
-        self.rect.center = (x + level.field_x + width/2.0, y + level.field_y + height/2.0)
+        self.rect.center = (x + origin[0] + width/2.0, y + origin[1] + height/2.0)
 
 class Block(pygame.sprite.Sprite):
     
-    def __init__(self, x, y, color, width, height, level, alpha=255):
+    def __init__(self, x, y, color, width, height, origin, alpha=255):
         
         # appelle le constructeur de la classe parent (Sprite)
         pygame.sprite.Sprite.__init__(self)
@@ -34,11 +34,11 @@ class Block(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # on positionne le bloc à l'écran en fonction de sa position dans le terrain de jeu
         # sachant que le terrain de jeu est centré à l'écran
-        self.rect.center = (x + level.field_x + width/2.0, y + level.field_y + height/2.0)
+        self.rect.center = (x + origin[0] + width/2.0, y + origin[1] + height/2.0)
 
 class Wall(pygame.sprite.Sprite):
     
-    def __init__(self, x, y, color, width, height, level):
+    def __init__(self, x, y, color, width, height, origin):
         
         # appelle le constructeur de la classe parent (Sprite)
         pygame.sprite.Sprite.__init__(self)
@@ -49,11 +49,11 @@ class Wall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # on positionne le bloc à l'écran en fonction de sa position dans le terrain de jeu
         # sachant que le terrain de jeu est centré à l'écran
-        self.rect.center = (x + level.field_x + width/2.0, y + level.field_y + height/2.0)
+        self.rect.center = (x + origin[0] + width/2.0, y + origin[1] + height/2.0)
 
 class ShadowWall(pygame.sprite.Sprite):
     
-    def __init__(self, x, y, color, width, height, level):
+    def __init__(self, x, y, color, width, height, origin):
         
         ratio = 4.0
         if width < height:
@@ -75,5 +75,5 @@ class ShadowWall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # on positionne le bloc à l'écran en fonction de sa position dans le terrain de jeu
         # sachant que le terrain de jeu est centré à l'écran
-        self.rect.center = (x + level.field_x + width/2.0, y + level.field_y + height/2.0)
+        self.rect.center = (x + origin[0] + width/2.0, y + origin[1] + height/2.0)
     

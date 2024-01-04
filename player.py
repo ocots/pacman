@@ -4,7 +4,7 @@ import utils
 
 class Player(pygame.sprite.Sprite):
     
-    def __init__(self, x, y, direction, filename, level):
+    def __init__(self, x, y, direction, filename, origin, level):
         
         #
         self.parameters = level.parameters
@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         # définit une couleur comme transparente
         #self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x + level.field_x, y + level.field_y)
+        self.rect.topleft = (x + origin[0], y + origin[1])
         
         # create a mask from the image for collision detection
         self.mask = pygame.mask.from_surface(self.image)

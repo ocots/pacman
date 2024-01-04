@@ -5,7 +5,7 @@ import utils
         
 class Ennemy(pygame.sprite.Sprite):
     
-    def __init__(self, x, y, direction, level):
+    def __init__(self, x, y, direction, origin, level):
         
         # 
         self.parameters = level.parameters
@@ -34,12 +34,12 @@ class Ennemy(pygame.sprite.Sprite):
         self.image = pygame.image.load(self.parameters.ENNEMY_IMAGE).convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.parameters.ENNEMY_WIDTH, self.parameters.ENNEMY_HEIGHT))
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x + level.field_x, y + level.field_y)
+        self.rect.topleft = (x + origin[0], y + origin[1])
         
         # create a mask from the image for collision detection
         self.mask = pygame.mask.from_surface(self.image)
         
-        # on sauvegarde l'environnement du niveau courant
+        # on sauvegarde le niveau
         self.level = level
         
         # compteur depuis le dernier changement de direction

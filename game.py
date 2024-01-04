@@ -24,7 +24,7 @@ class Game(object):
         # menu du jeu
         self.menu = Menu(self.parameters)
         
-        # mise en place du niveau 1 du jeu
+        # mise en place du niveau du jeu
         self.level = Levels(self.menu.get_level(), self.parameters)
 
         # on démarre la musique
@@ -71,7 +71,8 @@ class Game(object):
         # si l'action est de quitter le jeu depuis n'importe quel état
         # c'est l'appuie sur la croix de fermeture de la fenêtre
         if action == self.parameters.ACTIONS.QUIT:
-            self.state["action"] = self.parameters.ACTIONS.QUIT
+            self.state["frame"]  = self.parameters.FRAMES.QUIT
+            self.state["action"] = self.parameters.ACTIONS.EMPTY
             
         # si on est dans le menu
         elif self.state["frame"] == self.parameters.FRAMES.MENU:
@@ -89,7 +90,8 @@ class Game(object):
                     self.state["action"] = self.parameters.ACTIONS.EMPTY
                     
                 elif self.menu.item() == self.parameters.MENUITEMS.QUIT:
-                    self.state["action"] = self.parameters.ACTIONS.QUIT
+                    self.state["frame"]  = self.parameters.FRAMES.QUIT
+                    self.state["action"] = self.parameters.ACTIONS.EMPTY
                     
             #elif action == self.parameters.ACTIONS.ESCAPE:
             #    self.state["action"] = self.parameters.ACTIONS.QUIT
@@ -152,7 +154,7 @@ class Game(object):
                     self.game_music.stop()
                 self.game_over_sound.play()
                 
-        return self.state["action"] == self.parameters.ACTIONS.QUIT
+        return self.state["frame"] == self.parameters.FRAMES.QUIT
     
     # met à jour les objets du jeu
     def run_logic(self):
