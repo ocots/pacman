@@ -13,6 +13,7 @@ class Frames(Enum):
     GAME  = 1
     ABOUT = 2
     QUIT  = 3
+    GAMEOVER = 4
     
 class Actions(Enum):
     RETURN   = 0

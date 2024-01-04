@@ -111,6 +111,17 @@ class Game(object):
             action == self.parameters.ACTIONS.BACK:
                 self.state["frame"]  = self.parameters.FRAMES.MENU
                 self.state["action"] = self.parameters.ACTIONS.EMPTY
+
+            elif action == self.parameters.ACTIONS.GAMEOVER:
+                self.state["frame"]  = self.parameters.FRAMES.GAMEOVER
+                self.state["action"] = self.parameters.ACTIONS.EMPTY
+                
+        elif self.state["frame"] == self.parameters.FRAMES.GAMEOVER:
+            
+            if action == self.parameters.ACTIONS.ESCAPE or \
+            action == self.parameters.ACTIONS.BACK:
+                self.state["frame"]  = self.parameters.FRAMES.MENU
+                self.state["action"] = self.parameters.ACTIONS.EMPTY
         
     # gère les évènements du jeu
     def process_events(self):
@@ -208,11 +219,10 @@ class Game(object):
                 if player.lives > 0:
                     is_game_over = False
             if is_game_over:
-                self.state["action"] = self.parameters.ACTIONS.GAMEOVER
+                self.update_state(self.parameters.ACTIONS.GAMEOVER)
             
             # on déplace les ennemis
-            self.level.ennemies.update() #self.level.horizontal_paths, 
-                                       #self.level.vertical_paths)
+            self.level.ennemies.update()
     
     # affiche les objets du jeu à l'écran
     def display_frame(self, screen):
@@ -233,7 +243,8 @@ class Game(object):
                 color_background=self.parameters.WHITE)
             
         # sinon si on est dans le jeu et pas game over
-        elif self.state["frame"] == self.parameters.FRAMES.GAME:
+        elif self.state["frame"] == self.parameters.FRAMES.GAME or \
+            self.state["frame"] == self.parameters.FRAMES.GAMEOVER:
 
             # dessin du cadre du terrain de jeu, centré à l'écran, de dimension FIELD_WIDTH x FIELD_HEIGHT
             #pygame.draw.rect(screen, BLUE,
@@ -251,7 +262,8 @@ class Game(object):
             screen.blit(self.level_background_image, [0, 0])
             
             # dessin de l'environnement : les murs
-            #self.level.shadow_walls.draw(screen)
+            if self.level.level_number == 0:
+                self.level.shadow_walls.draw(screen)
             self.level.walls.draw(screen)
             
             # dessins des blocs vides
@@ -303,9 +315,11 @@ class Game(object):
                 screen.blit(text, [SW - 300, 20])
             
         # # sinon si dans le jeu est game over
-        # if self.state["frame"] == self.parameters.FRAMES.GAME and \
-        # self.state["action"] == self.parameters.ACTIONS.GAMEOVER:
-        #     self.display_message(screen, "Game Over")
+        if self.state["frame"] == self.parameters.FRAMES.GAMEOVER:
+            utils.display_message(screen, "Game Over", self.parameters,
+                font = self.font,
+                color_font=self.parameters.RED, 
+                color_background=self.parameters.WHITE)
             
         # rafraichissement de l'écran
         pygame.display.flip()
